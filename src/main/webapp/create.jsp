@@ -49,7 +49,7 @@
                 <td><input type="text" name="email" id="email"></td>
             </tr>
             <tr>
-                <td>Class:</td>
+                <td>Department:</td>
                 <td><select name="class" id="class">
                     <c:forEach var="c" items="${department}">
                         <option value="${c.id}">${c.name}</option>
