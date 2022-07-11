@@ -17,12 +17,12 @@
     </c:if>
 </p>
 <p>
-    <a href="/staff">Back to student list</a>
+    <a href="/staff">Back to Staff list</a>
 </p>
 
 <form action="/staff?action=create" method="post">
     <fieldset>
-        <legend>Studen information</legend>
+        <legend>Staff information</legend>
         <table>
             <%--            <tr>--%>
             <%--                <td>Id:</td>--%>

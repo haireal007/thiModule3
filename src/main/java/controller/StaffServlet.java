@@ -54,30 +54,13 @@ public class StaffServlet extends HttpServlet {
         RequestDispatcher dispatcher = null;
         switch (action) {
             case "create":
-                int id = staffDao.getAll().size() + 1;
-                String name = request.getParameter("name");
-                LocalDate birth = LocalDate.parse(request.getParameter("birth"));
-                String address = request.getParameter("address");
-                String phone = request.getParameter("phone");
-                String email = request.getParameter("email");
-                int idDepartment = Integer.parseInt(request.getParameter("class"));
-
-                Staff st = new Staff(id, name, birth, address, phone, email, departmentDao.findById(idDepartment));
-                staffDao.create(st);
-                resp.sendRedirect("/staff");
+                creatpost(request,resp);
                 break;
             case "edit":
-                int ide = Integer.parseInt(request.getParameter("id"));
-                String namee = request.getParameter("name");
-                LocalDate birthe = LocalDate.parse(request.getParameter("birth"));
-                String addresse = request.getParameter("address");
-                String phonee = request.getParameter("phone");
-                String emaile = request.getParameter("email");
-                int idClasse = Integer.parseInt(request.getParameter("class"));
-
-                Staff ste = new Staff(ide, namee, birthe, addresse, phonee, emaile, departmentDao.findById(idClasse));
-                staffDao.edit(ide, ste);
-                resp.sendRedirect("/staff");
+                editpost(request,resp);
+                break;
+            case "delete":
+                deletepost(request,resp);
                 break;
         }
     }
@@ -100,8 +83,16 @@ public class StaffServlet extends HttpServlet {
         RequestDispatcher dispatcher = req.getRequestDispatcher("/home.jsp");
         dispatcher.forward(req, resp);
     }
-
     private void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        Staff staff = staffDao.findById(id);
+        List<Department> department = departmentDao.getAll();
+        req.setAttribute("staff",staff );
+        req.setAttribute("department",department);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/delete.jsp");
+        dispatcher.forward(req, resp);
+    }
+    private void deletepost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Staff> students = staffDao.getAll();
         int id = Integer.parseInt(req.getParameter("id"));
         staffDao.delete(id);
@@ -117,6 +108,33 @@ public class StaffServlet extends HttpServlet {
         req.setAttribute("department",department);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/edit.jsp");
         dispatcher.forward(req, resp);
+    }
+
+    private void creatpost(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
+        int id = staffDao.getAll().size() + 1;
+        String name = request.getParameter("name");
+        LocalDate birth = LocalDate.parse(request.getParameter("birth"));
+        String address = request.getParameter("address");
+        String phone = request.getParameter("phone");
+        String email = request.getParameter("email");
+        int idDepartment = Integer.parseInt(request.getParameter("class"));
+
+        Staff st = new Staff(id, name, birth, address, phone, email, departmentDao.findById(idDepartment));
+        staffDao.create(st);
+        resp.sendRedirect("/staff");
+    }
+    private void editpost(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
+        int ide = Integer.parseInt(request.getParameter("id"));
+        String namee = request.getParameter("name");
+        LocalDate birthe = LocalDate.parse(request.getParameter("birth"));
+        String addresse = request.getParameter("address");
+        String phonee = request.getParameter("phone");
+        String emaile = request.getParameter("email");
+        int idClasse = Integer.parseInt(request.getParameter("class"));
+
+        Staff ste = new Staff(ide, namee, birthe, addresse, phonee, emaile, departmentDao.findById(idClasse));
+        staffDao.edit(ide, ste);
+        resp.sendRedirect("/staff");
     }
 }
 

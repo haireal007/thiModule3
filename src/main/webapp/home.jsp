@@ -56,7 +56,7 @@
         </div>
     </div>
 </header>
-<h2>Table Student</h2>  <button type="button" class="btn btn-success"><a href="/staff?action=create">Create</a></button>
+<h2>Table Staff</h2>  <button type="button" class="btn btn-success"><a href="/staff?action=create">Create</a></button>
 
 
 <form action="/staff">
